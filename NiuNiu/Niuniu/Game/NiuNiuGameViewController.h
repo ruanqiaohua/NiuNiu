@@ -19,5 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *takeChairBtn;
 @property (weak, nonatomic) IBOutlet UIView *multipleChooseView;
 @property (weak, nonatomic) IBOutlet UIView *niuChooseView;
+@property (weak, nonatomic) IBOutlet UIImageView *robotImg;
+@property (weak, nonatomic) IBOutlet UIView *calculatorView;
 
 @end

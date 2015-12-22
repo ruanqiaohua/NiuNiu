@@ -11,7 +11,7 @@
 #import "NiuNiuCard.h"
 
 @interface NiuNiuGameViewController ()
-
+@property (strong, nonatomic) NSMutableArray *chooseCardBtns;
 @end
 
 @implementation NiuNiuGameViewController
@@ -82,12 +82,42 @@
         NSInteger type = arc4random()%4;
         NiuNiuCard *card = [[NiuNiuCard alloc]initWithTypeNum:arc4random()%13+1 cardType:type];
         [cardBtn setImage:[NiuNiuCard imageFromView:card] forState:UIControlStateNormal];
+        [cardBtn addTarget:self action:@selector(cardBtnIsClick:) forControlEvents:UIControlEventTouchUpInside];
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)cardBtnIsClick:(UIButton *)sender
+{
+    if (!_chooseCardBtns) {
+        _chooseCardBtns = [NSMutableArray arrayWithCapacity:3];
+    }
+    for (UIButton *chooseBtn in _chooseCardBtns) {
+        if (sender == chooseBtn) {
+            [_chooseCardBtns removeObject:chooseBtn];
+            [UIView animateWithDuration:0.1 animations:^{
+                sender.frame = CGRectOffset(sender.frame, 0, 8);
+            }];
+            for (UIButton *cardBtn in _myCards) {
+                cardBtn.enabled = YES;
+            }
+            return;
+        }
+    }
+    [UIView animateWithDuration:0.1 animations:^{
+        sender.frame = CGRectOffset(sender.frame, 0, -8);
+    }];
+    [_chooseCardBtns addObject:sender];
+    if (_chooseCardBtns.count >= 3) {
+        for (UIButton *cardBtn in _myCards) {
+            cardBtn.enabled = NO;
+            for (UIButton *chooseBtn in _chooseCardBtns) {
+                if (cardBtn == chooseBtn) {
+                    cardBtn.enabled = YES;
+                    break;
+                }
+            }
+        }
+    }
 }
 
 - (IBAction)closeBtnDidClick:(UIButton *)sender
@@ -100,14 +130,9 @@
     [sender setHidden:YES];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
-*/
 
 @end
