@@ -80,7 +80,7 @@
             typeNum = typeNum<10?typeNum:10;
             [targetcards addObject:[NSNumber numberWithInteger:typeNum]];
         }
-        [self testNN:targetcards sizeImg:_otherNiuSizeImgs[a]];
+        [self changeSizeImg:_otherNiuSizeImgs[a] resultDic:[self testNN:targetcards]];
         a += 1;
     }
 }
@@ -111,6 +111,7 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake((72+6)*i, 0, 72, _niuChooseView.frame.size.height);
         [btn setImage:[[SkinManager inst] getImage:[NSString stringWithFormat:@"Live/Game/NiuNiu/%@",niuBtnChooseImgs[i]]] forState:UIControlStateNormal];
+        btn.tag = 200+i;
         [btn addTarget:self action:@selector(niuChooseBtnDidClick:) forControlEvents:UIControlEventTouchUpInside];
         [_niuChooseView addSubview:btn];
     }
@@ -131,6 +132,14 @@
         i+=1;
         [cardBtn addTarget:self action:@selector(cardBtnIsClick:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    NSMutableArray *targetcards = [NSMutableArray array];
+    for (NSDictionary *dic in _myCardsArr) {
+        NSInteger typeNum = [dic[@"typeNum"] integerValue];
+        typeNum = typeNum<10?typeNum:10;
+        [targetcards addObject:[NSNumber numberWithInteger:typeNum]];
+    }
+    _myResult = [self testNN:targetcards];
 }
 
 - (void)cardBtnIsClick:(UIButton *)sender
@@ -232,24 +241,40 @@
 
 - (void)niuChooseBtnDidClick:(UIButton *)sender
 {
-    if ([_totalNums.text integerValue] == 0) {
-        NSLog(@"__________你的牌可能有牛");
+    switch (sender.tag) {
+        case 200:
+        {
+            for (UILabel *label in _calculatorNumbers) {
+                if ([label.text integerValue] == 0) {
+                    NSLog(@"请选择3张牌！");
+                    return;
+                }
+            }
+            if ([_totalNums.text integerValue]%10 != 0) {
+                NSLog(@"这个组合没有牛！");
+                return;
+            }
+        }
+            break;
+        case 201:
+        {
+            if ([_myResult[@"tmp1"] boolValue]) {
+                NSLog(@"仔细看看，应该是有牛的！");
+                return;
+            }
+
+        }
+            break;
+        default:
+            break;
     }
-    NSInteger total = 0;
-    NSMutableArray *targetcards = [NSMutableArray array];
-    for (NSDictionary *dic in _myCardsArr) {
-        NSInteger typeNum = [dic[@"typeNum"] integerValue];
-        typeNum = typeNum<10?typeNum:10;
-        total += typeNum;
-        [targetcards addObject:[NSNumber numberWithInteger:typeNum]];
-    }
-    
-    [self testNN:targetcards sizeImg:_myNiuSizeImg];
+
+    [self changeSizeImg:_myNiuSizeImg resultDic:_myResult];
     [self showHiddenSomething];
     [self loadOtherPlayerCards];
 }
 
-- (void)testNN:(NSMutableArray *)targetcards sizeImg:(UIImageView *)sizeImg
+- (NSDictionary *)testNN:(NSMutableArray *)targetcards
 {
     //其中J,Q,K已经转换为10
     BOOL tmp1 = NO;
@@ -277,8 +302,17 @@
             }
         }
     }
-    lalala:
-    NSLog(@"牛%zi",tmp3);
+    lalala:NSLog(@"《你开始，顺时针》牛%zi",tmp3);
+ 
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:tmp1],@"tmp1",[NSNumber numberWithBool:tmp2],@"tmp2",[NSNumber numberWithInteger:tmp3],@"tmp3", nil];
+    return dic;
+}
+
+- (void)changeSizeImg:(UIImageView *)sizeImg resultDic:(NSDictionary *)resultDic
+{
+    BOOL tmp1 = [resultDic[@"tmp1"] boolValue];
+    BOOL tmp2 = [resultDic[@"tmp2"] boolValue];
+    NSInteger tmp3 = [resultDic[@"tmp3"] integerValue];
     if (tmp1) {
         if (tmp2) {
             sizeImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_niuniu"];
