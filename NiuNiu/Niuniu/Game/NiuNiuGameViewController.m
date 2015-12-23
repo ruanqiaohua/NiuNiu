@@ -53,13 +53,35 @@
 
 - (void)loadOtherDefaultPlayerCards
 {
-    //其他人的牌
+    //其他人的牌（反面）
     for (UIView *view in _playerViews) {
         for (int i=0; i<5; i++) {
             UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(12*i, 0, 22, view.frame.size.height)];
             img.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_zhengmian"];
             [view addSubview:img];
         }
+    }
+}
+
+- (void)loadOtherPlayerCards
+{
+    //其他人的牌（正面）
+    int a = 0;
+    for (UIView *view in _playerViews) {
+        [view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        NSMutableArray *targetcards = [NSMutableArray array];
+        for (int i=0; i<5; i++) {
+            NSInteger cardType = arc4random()%4;
+            NSInteger typeNum = arc4random()%13+1;
+            NiuNiuCard *card = [[NiuNiuCard alloc]initWithTypeNum:typeNum cardType:cardType];
+            UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(12*i, 0, 22, view.frame.size.height)];
+            img.image = [NiuNiuCard imageFromView:card];
+            [view addSubview:img];
+            typeNum = typeNum<10?typeNum:10;
+            [targetcards addObject:[NSNumber numberWithInteger:typeNum]];
+        }
+        [self testNN:targetcards sizeImg:_otherNiuSizeImgs[a]];
+        a += 1;
     }
 }
 
@@ -224,6 +246,7 @@
     
     [self testNN:targetcards sizeImg:_myNiuSizeImg];
     [self showHiddenSomething];
+    [self loadOtherPlayerCards];
 }
 
 - (void)testNN:(NSMutableArray *)targetcards sizeImg:(UIImageView *)sizeImg
@@ -248,17 +271,14 @@
                     }
                     if(tmp3%10 == 0){
                         tmp2 = YES;
-                        NSLog(@"牛牛");
-                        break;
-                    }else {
-                        NSLog(@"牛%zi",tmp3%10);
-                        break;
                     }
+                    goto lalala;
                 }
             }
         }
     }
-    
+    lalala:
+    NSLog(@"牛%zi",tmp3);
     if (tmp1) {
         if (tmp2) {
             sizeImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_niuniu"];
@@ -285,11 +305,14 @@
     for (UIButton *cardBtn in _myCards) {//把超过3个不可点的条件取消
         cardBtn.enabled = YES;
     }
-    [self performSelector:@selector(gameOver) withObject:nil afterDelay:3];
+//    [self performSelector:@selector(gameOver) withObject:nil afterDelay:3];
 }
 
 - (void)gameOver
 {
+    for (UIImageView *img in _otherNiuSizeImgs) {
+        img.image = nil;
+    }
     _myNiuSizeImg.image = nil;
     for (UIButton *card in _myCards) {
         [card setImage:nil forState:UIControlStateNormal];
