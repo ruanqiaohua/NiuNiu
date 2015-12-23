@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *reduceBtn;//最小化
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;//关闭
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *playerViews;//其他玩家
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *niuBiImgs;//其他玩家
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *myCards;//我的卡牌
 @property (weak, nonatomic) IBOutlet UIButton *takeChairBtn;//入座
 @property (weak, nonatomic) IBOutlet UIView *multipleChooseView;//倍数选择

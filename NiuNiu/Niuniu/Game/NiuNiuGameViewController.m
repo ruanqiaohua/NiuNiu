@@ -42,6 +42,10 @@
     
     _robotImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_jiqiren"];
 
+    for (UIImageView *img in _niuBiImgs) {
+        img.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_niubi"];
+    }
+    
     //[self loadOtherDefaultPlayerCards];//其他人的卡牌
     //[self loadMultipleChooseView];//倍数
     //[self loadNiuChooseView];//有牛or没牛
