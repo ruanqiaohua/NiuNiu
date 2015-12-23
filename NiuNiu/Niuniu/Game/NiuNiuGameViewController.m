@@ -15,6 +15,9 @@
 @interface NiuNiuGameViewController ()
 @property (strong, nonatomic) NSMutableArray *chooseCardBtns;
 @property (strong, nonatomic) NSMutableArray *myCardsArr;
+@property (strong, nonatomic) NSDictionary *myResult;
+@property (strong, nonatomic) NSMutableArray *otherCardsArr;
+@property (strong, nonatomic) NSMutableArray *otherResults;
 @property (strong, nonatomic) NSMutableDictionary *myCardsChooseDic;
 @end
 
@@ -39,7 +42,7 @@
     
     _robotImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_jiqiren"];
 
-    //[self loadOtherPlayerCards];//其他人的卡牌
+    //[self loadOtherDefaultPlayerCards];//其他人的卡牌
     //[self loadMultipleChooseView];//倍数
     //[self loadNiuChooseView];//有牛or没牛
     //[self loadMyCards];//我的卡片
@@ -48,7 +51,7 @@
     [_robotImg setHidden:YES];
 }
 
-- (void)loadOtherPlayerCards
+- (void)loadOtherDefaultPlayerCards
 {
     //其他人的牌
     for (UIView *view in _playerViews) {
@@ -86,6 +89,7 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake((72+6)*i, 0, 72, _niuChooseView.frame.size.height);
         [btn setImage:[[SkinManager inst] getImage:[NSString stringWithFormat:@"Live/Game/NiuNiu/%@",niuBtnChooseImgs[i]]] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(niuChooseBtnDidClick:) forControlEvents:UIControlEventTouchUpInside];
         [_niuChooseView addSubview:btn];
     }
 }
@@ -196,12 +200,104 @@
 
 - (void)multipleBtnDidClick:(UIButton *)sender
 {
-    [self loadOtherPlayerCards];//其他人的卡牌
+    [self loadOtherDefaultPlayerCards];//其他人的卡牌
     [self loadNiuChooseView];//有牛or没牛
     [self loadMyCards];//我的卡片
     
     [_calculatorView setHidden:NO];
     [_robotImg setHidden:NO];
+}
+
+- (void)niuChooseBtnDidClick:(UIButton *)sender
+{
+    if ([_totalNums.text integerValue] == 0) {
+        NSLog(@"__________你的牌可能有牛");
+    }
+    NSInteger total = 0;
+    NSMutableArray *targetcards = [NSMutableArray array];
+    for (NSDictionary *dic in _myCardsArr) {
+        NSInteger typeNum = [dic[@"typeNum"] integerValue];
+        typeNum = typeNum<10?typeNum:10;
+        total += typeNum;
+        [targetcards addObject:[NSNumber numberWithInteger:typeNum]];
+    }
+    
+    [self testNN:targetcards sizeImg:_myNiuSizeImg];
+    [self showHiddenSomething];
+}
+
+- (void)testNN:(NSMutableArray *)targetcards sizeImg:(UIImageView *)sizeImg
+{
+    //其中J,Q,K已经转换为10
+    BOOL tmp1 = NO;
+    BOOL tmp2 = NO;
+    NSInteger tmp3 = 0;
+    //tmp1记录是否有3张组成10
+    //tmp2记录是否是“牛牛”
+    //tmp3记录是否是“牛牛大小”
+    for(int a=0;a<=2;a++){
+        for(int b=a+1;b<=3;b++){
+            for(int c=b+1;c<=4;c++){
+                if(([targetcards[a] integerValue]+[targetcards[b] integerValue]+[targetcards[c] integerValue])%10 == 0){
+                    tmp1 = YES;
+                    //tmp3是暂时保存数据用的
+                    for(int j=0;j<=4;j++){
+                        if(j != a && j != b && j != c){
+                            tmp3+= [targetcards[j] integerValue];
+                        }
+                    }
+                    if(tmp3%10 == 0){
+                        tmp2 = YES;
+                        NSLog(@"牛牛");
+                        break;
+                    }else {
+                        NSLog(@"牛%zi",tmp3%10);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    if (tmp1) {
+        if (tmp2) {
+            sizeImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_niuniu"];
+        }else {
+            sizeImg.image = [[SkinManager inst] getImage:[NSString stringWithFormat:@"Live/Game/NiuNiu/niuniu_niu%zi",tmp3%10]];
+        }
+    }else {
+        sizeImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_meiniu"];
+    }
+}
+
+- (void)showHiddenSomething
+{
+    [_calculatorView setHidden:YES];
+    [_robotImg setHidden:YES];
+    [_niuChooseView setHidden:YES];
+    for (UIButton *chooseBtn in _chooseCardBtns) {//遍历选择数组
+        [UIView animateWithDuration:0.1 animations:^{
+            chooseBtn.frame = CGRectOffset(chooseBtn.frame, 0, 8);
+        }];
+        [self reloadCalculatorNumbers:chooseBtn.tag type:@"remove"];
+    }
+    [_chooseCardBtns removeAllObjects];
+    for (UIButton *cardBtn in _myCards) {//把超过3个不可点的条件取消
+        cardBtn.enabled = YES;
+    }
+    [self performSelector:@selector(gameOver) withObject:nil afterDelay:3];
+}
+
+- (void)gameOver
+{
+    _myNiuSizeImg.image = nil;
+    for (UIButton *card in _myCards) {
+        [card setImage:nil forState:UIControlStateNormal];
+    }
+    for (UIView *view in _playerViews) {
+        [view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    }
+    [_takeChairBtn setHidden:NO];
 }
 
 - (void)didReceiveMemoryWarning {

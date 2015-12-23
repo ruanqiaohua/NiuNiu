@@ -23,5 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIView *calculatorView;//计算是否有牛
 @property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *calculatorNumbers;//显示选择数字
 @property (weak, nonatomic) IBOutlet UILabel *totalNums;//计算总算
+@property (weak, nonatomic) IBOutlet UIImageView *myNiuSizeImg;//我的牛牛大小
 
 @end

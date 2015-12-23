@@ -731,6 +731,13 @@
                                             </mask>
                                         </variation>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2wB-kl-OsK">
+                                        <rect key="frame" x="257" y="163" width="87" height="41"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="41" id="wWb-PN-oRV"/>
+                                            <constraint firstAttribute="width" constant="87" id="wjc-C2-zgj"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Q8q-py-mIT" firstAttribute="leading" secondItem="W4F-fq-cKP" secondAttribute="leading" id="0fa-cp-Abb"/>
@@ -743,6 +750,7 @@
                                     <constraint firstItem="68G-LU-D5h" firstAttribute="top" secondItem="Uco-HD-1oE" secondAttribute="bottom" constant="4" id="Dp1-th-jMi"/>
                                     <constraint firstItem="B3a-He-wge" firstAttribute="top" secondItem="Zaa-fO-nIo" secondAttribute="bottom" constant="4" id="F3a-IT-ta9"/>
                                     <constraint firstItem="W4F-fq-cKP" firstAttribute="leading" secondItem="w7F-S5-D1H" secondAttribute="leading" constant="88" id="F7q-6t-nGc"/>
+                                    <constraint firstItem="FAd-I9-Ir0" firstAttribute="top" secondItem="2wB-kl-OsK" secondAttribute="bottom" constant="4" id="Fgr-VF-ceq"/>
                                     <constraint firstItem="cW3-a4-uRn" firstAttribute="top" secondItem="w7F-S5-D1H" secondAttribute="top" id="GFu-zp-pNi"/>
                                     <constraint firstItem="Zaa-fO-nIo" firstAttribute="leading" secondItem="w7F-S5-D1H" secondAttribute="leading" constant="8" id="OJ5-uP-Ogr"/>
                                     <constraint firstItem="FAd-I9-Ir0" firstAttribute="top" secondItem="FFC-re-QoG" secondAttribute="bottom" constant="2.5" id="Ofh-NB-kal"/>
@@ -761,6 +769,7 @@
                                     <constraint firstItem="FFC-re-QoG" firstAttribute="leading" secondItem="w7F-S5-D1H" secondAttribute="leading" constant="8" id="XPm-Fq-f0q"/>
                                     <constraint firstItem="g2h-fs-rRF" firstAttribute="top" secondItem="68G-LU-D5h" secondAttribute="bottom" constant="2" id="Y3A-6L-7Q9"/>
                                     <constraint firstItem="Zaa-fO-nIo" firstAttribute="top" secondItem="W4F-fq-cKP" secondAttribute="bottom" constant="15" id="Z1V-qy-FJX"/>
+                                    <constraint firstItem="2wB-kl-OsK" firstAttribute="centerX" secondItem="cW3-a4-uRn" secondAttribute="centerX" id="ZJg-uv-plI"/>
                                     <constraint firstAttribute="trailing" secondItem="Dc1-Kn-J7t" secondAttribute="trailing" constant="29" id="Zrb-qo-TAV"/>
                                     <constraint firstItem="Exk-8f-9to" firstAttribute="leading" secondItem="dU9-GM-o6e" secondAttribute="trailing" constant="6" id="b5q-nG-ltH"/>
                                     <constraint firstItem="cW3-a4-uRn" firstAttribute="leading" secondItem="w7F-S5-D1H" secondAttribute="leading" id="cBg-OX-dNS"/>
@@ -801,6 +810,7 @@
                         <outlet property="closeBtn" destination="Exk-8f-9to" id="8aG-Uq-A4O"/>
                         <outlet property="gameRuleBtn" destination="Ay7-4M-A5a" id="qMz-T2-Lyd"/>
                         <outlet property="multipleChooseView" destination="Dc1-Kn-J7t" id="o53-P7-Lfk"/>
+                        <outlet property="myNiuSizeImg" destination="2wB-kl-OsK" id="yxr-Mm-lsZ"/>
                         <outlet property="niuChooseView" destination="g2h-fs-rRF" id="dzz-3J-rsZ"/>
                         <outlet property="reduceBtn" destination="dU9-GM-o6e" id="rej-Kt-UYK"/>
                         <outlet property="robotImg" destination="Va0-G8-hKr" id="VEz-kO-8wM"/>
