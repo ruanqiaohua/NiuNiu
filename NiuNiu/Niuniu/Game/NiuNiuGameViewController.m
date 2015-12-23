@@ -37,6 +37,19 @@
     [_takeChairBtn setImage:[[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_ruzuo"] forState:UIControlStateNormal];
     [_takeChairBtn setImage:[[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_ruzuo_p"] forState:UIControlStateHighlighted];
     
+    _robotImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_jiqiren"];
+
+    //[self loadOtherPlayerCards];//其他人的卡牌
+    //[self loadMultipleChooseView];//倍数
+    //[self loadNiuChooseView];//有牛or没牛
+    //[self loadMyCards];//我的卡片
+    
+    [_calculatorView setHidden:YES];
+    [_robotImg setHidden:YES];
+}
+
+- (void)loadOtherPlayerCards
+{
     //其他人的牌
     for (UIView *view in _playerViews) {
         for (int i=0; i<5; i++) {
@@ -45,13 +58,6 @@
             [view addSubview:img];
         }
     }
-
-    //[self loadMultipleChooseView];//倍数
-    [self loadNiuChooseView];//有牛or没牛
-    [self loadMyCards];
-    
-    _robotImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_jiqiren"];
-
 }
 
 - (void)loadMultipleChooseView
@@ -65,6 +71,7 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake((multipleBtn_W+5)*i, 0, multipleBtn_W, _multipleChooseView.frame.size.height);
         [btn setImage:[[SkinManager inst] getImage:[NSString stringWithFormat:@"Live/Game/NiuNiu/%@",multipleChooseImgs[i]]] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(multipleBtnDidClick:) forControlEvents:UIControlEventTouchUpInside];
         [_multipleChooseView addSubview:btn];
     }
 }
@@ -184,6 +191,17 @@
 - (IBAction)takeChairBtnDidClick:(UIButton *)sender
 {
     [sender setHidden:YES];
+    [self loadMultipleChooseView];//倍数
+}
+
+- (void)multipleBtnDidClick:(UIButton *)sender
+{
+    [self loadOtherPlayerCards];//其他人的卡牌
+    [self loadNiuChooseView];//有牛or没牛
+    [self loadMyCards];//我的卡片
+    
+    [_calculatorView setHidden:NO];
+    [_robotImg setHidden:NO];
 }
 
 - (void)didReceiveMemoryWarning {
