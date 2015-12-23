@@ -21,5 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIView *niuChooseView;
 @property (weak, nonatomic) IBOutlet UIImageView *robotImg;
 @property (weak, nonatomic) IBOutlet UIView *calculatorView;
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *calculatorNumbers;
+@property (weak, nonatomic) IBOutlet UILabel *totalNums;
 
 @end

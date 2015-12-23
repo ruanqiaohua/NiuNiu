@@ -593,11 +593,143 @@
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ew7-i0-lWl">
                                         <rect key="frame" x="120" y="176" width="140" height="20"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="110" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nj4-Gd-6PW">
+                                                <rect key="frame" x="2" y="2" width="19" height="16"/>
+                                                <color key="backgroundColor" red="0.16862745098039217" green="0.12941176470588237" blue="0.054901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="Nj4-Gd-6PW" secondAttribute="height" multiplier="1.2:1" id="7Fr-i7-1tW"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.98039215686274506" green="1" blue="0.27450980392156865" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.masksToBounds">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BfD-Jo-GLY">
+                                                <rect key="frame" x="34" y="2" width="19" height="16"/>
+                                                <color key="backgroundColor" red="0.16862745100000001" green="0.12941176469999999" blue="0.054901960780000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="BfD-Jo-GLY" secondAttribute="height" multiplier="1.2:1" id="LQS-FI-dKh"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.98039215690000003" green="1" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.masksToBounds">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="112" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AwL-yg-tna">
+                                                <rect key="frame" x="66" y="2" width="19" height="16"/>
+                                                <color key="backgroundColor" red="0.16862745100000001" green="0.12941176469999999" blue="0.054901960780000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="AwL-yg-tna" secondAttribute="height" multiplier="1.2:1" id="K58-0C-JeL"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.98039215690000003" green="1" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.masksToBounds">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WvN-Yo-8Dy">
+                                                <rect key="frame" x="117" y="2" width="19" height="16"/>
+                                                <color key="backgroundColor" red="0.16862745100000001" green="0.12941176469999999" blue="0.054901960780000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="WvN-Yo-8Dy" secondAttribute="height" multiplier="1:1" id="4nB-4b-ARt"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.98039215690000003" green="1" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.masksToBounds">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="4nB-4b-ARt"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsO-fJ-4De">
+                                                <rect key="frame" x="23" y="2" width="9" height="16"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" red="0.28235294117647058" green="0.12156862745098039" blue="0.035294117647058823" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SN3-fi-CNv">
+                                                <rect key="frame" x="55" y="2" width="9" height="16"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" red="0.28235294119999998" green="0.1215686275" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="=" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzy-TZ-VNs">
+                                                <rect key="frame" x="96" y="2" width="9" height="16"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" red="0.28235294119999998" green="0.1215686275" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.34509803921568627" green="0.15294117647058825" blue="0.023529411764705882" alpha="0.5" colorSpace="calibratedRGB"/>
                                         <constraints>
+                                            <constraint firstItem="fsO-fJ-4De" firstAttribute="leading" secondItem="Nj4-Gd-6PW" secondAttribute="trailing" constant="2" id="2IQ-B4-6Cb"/>
+                                            <constraint firstItem="AwL-yg-tna" firstAttribute="width" secondItem="AwL-yg-tna" secondAttribute="height" multiplier="1:1" id="3Aa-7p-j1t"/>
+                                            <constraint firstItem="AwL-yg-tna" firstAttribute="leading" secondItem="SN3-fi-CNv" secondAttribute="trailing" constant="2" id="3Cj-9c-OTx"/>
+                                            <constraint firstItem="WvN-Yo-8Dy" firstAttribute="top" secondItem="ew7-i0-lWl" secondAttribute="top" constant="2" id="3hv-Ty-vTD"/>
+                                            <constraint firstItem="Nj4-Gd-6PW" firstAttribute="leading" secondItem="ew7-i0-lWl" secondAttribute="leading" constant="2" id="4uE-u9-i5c"/>
                                             <constraint firstAttribute="width" constant="140" id="60w-GS-GiG"/>
+                                            <constraint firstItem="Tzy-TZ-VNs" firstAttribute="centerY" secondItem="AwL-yg-tna" secondAttribute="centerY" id="6KR-ma-eOJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="BfD-Jo-GLY" secondAttribute="bottom" constant="2" id="77f-oU-X7s"/>
+                                            <constraint firstAttribute="bottom" secondItem="Nj4-Gd-6PW" secondAttribute="bottom" constant="2" id="EH1-GA-bjN"/>
+                                            <constraint firstItem="Nj4-Gd-6PW" firstAttribute="top" secondItem="ew7-i0-lWl" secondAttribute="top" constant="2" id="HX5-Od-uWq"/>
                                             <constraint firstAttribute="height" constant="20" id="Ilm-Zg-U3N"/>
+                                            <constraint firstItem="Tzy-TZ-VNs" firstAttribute="leading" secondItem="AwL-yg-tna" secondAttribute="trailing" constant="11" id="LK5-w8-mX2"/>
+                                            <constraint firstItem="SN3-fi-CNv" firstAttribute="centerY" secondItem="BfD-Jo-GLY" secondAttribute="centerY" id="LLg-Pw-bvU"/>
+                                            <constraint firstAttribute="bottom" secondItem="AwL-yg-tna" secondAttribute="bottom" constant="2" id="S0r-0r-dir"/>
+                                            <constraint firstItem="BfD-Jo-GLY" firstAttribute="top" secondItem="ew7-i0-lWl" secondAttribute="top" constant="2" id="XEd-hM-GWV"/>
+                                            <constraint firstItem="fsO-fJ-4De" firstAttribute="centerY" secondItem="Nj4-Gd-6PW" secondAttribute="centerY" id="fyQ-9d-Rca"/>
+                                            <constraint firstItem="WvN-Yo-8Dy" firstAttribute="width" secondItem="WvN-Yo-8Dy" secondAttribute="height" multiplier="1:1" id="hBB-6A-i5w"/>
+                                            <constraint firstItem="BfD-Jo-GLY" firstAttribute="leading" secondItem="fsO-fJ-4De" secondAttribute="trailing" constant="2" id="hja-o2-qbQ"/>
+                                            <constraint firstAttribute="bottom" secondItem="WvN-Yo-8Dy" secondAttribute="bottom" constant="2" id="hpl-3l-mPv"/>
+                                            <constraint firstItem="SN3-fi-CNv" firstAttribute="leading" secondItem="BfD-Jo-GLY" secondAttribute="trailing" constant="2" id="iNy-Ac-RW1"/>
+                                            <constraint firstItem="AwL-yg-tna" firstAttribute="top" secondItem="ew7-i0-lWl" secondAttribute="top" constant="2" id="l0R-57-Y5W"/>
+                                            <constraint firstAttribute="trailing" secondItem="WvN-Yo-8Dy" secondAttribute="trailing" constant="4" id="q76-xk-hdi"/>
+                                            <constraint firstItem="WvN-Yo-8Dy" firstAttribute="width" secondItem="WvN-Yo-8Dy" secondAttribute="height" multiplier="1.2:1" id="uY6-xF-CpW"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.masksToBounds">
+                                                <integer key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="3Aa-7p-j1t"/>
+                                                <exclude reference="hBB-6A-i5w"/>
+                                            </mask>
+                                        </variation>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -673,6 +805,7 @@
                         <outlet property="reduceBtn" destination="dU9-GM-o6e" id="rej-Kt-UYK"/>
                         <outlet property="robotImg" destination="Va0-G8-hKr" id="VEz-kO-8wM"/>
                         <outlet property="takeChairBtn" destination="XHO-cd-sTH" id="HIn-Z7-lCr"/>
+                        <outlet property="totalNums" destination="WvN-Yo-8Dy" id="qpM-gX-6tI"/>
                         <outletCollection property="playerViews" destination="B3a-He-wge" id="yAC-ag-vhV"/>
                         <outletCollection property="playerViews" destination="Q8q-py-mIT" id="qaf-Kd-F2u"/>
                         <outletCollection property="playerViews" destination="81g-3f-neP" id="bb8-aC-EGk"/>
@@ -682,6 +815,9 @@
                         <outletCollection property="myCards" destination="BEL-EF-fLd" id="XGv-sY-Qy5"/>
                         <outletCollection property="myCards" destination="JEY-30-4PJ" id="aOY-qc-26B"/>
                         <outletCollection property="myCards" destination="Hbe-l9-ShM" id="Axy-SA-PRI"/>
+                        <outletCollection property="calculatorNumbers" destination="Nj4-Gd-6PW" id="QK3-H9-UBh"/>
+                        <outletCollection property="calculatorNumbers" destination="BfD-Jo-GLY" id="pth-QJ-SeD"/>
+                        <outletCollection property="calculatorNumbers" destination="AwL-yg-tna" id="kr3-xn-0Kb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ibk-a6-Uho" userLabel="First Responder" sceneMemberID="firstResponder"/>
