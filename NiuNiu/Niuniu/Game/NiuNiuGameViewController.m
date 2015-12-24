@@ -9,8 +9,16 @@
 #import "NiuNiuGameViewController.h"
 #import "SkinManager.h"
 #import "NiuNiuCard.h"
+#import "MBProgressHUD.h"
 
 #define MyCardsDefaultTag 1000
+
+typedef enum : NSUInteger {
+    beginType,
+    bossType,
+    multipleType,
+    openType,
+} CountDownType;
 
 @interface NiuNiuGameViewController ()
 @property (strong, nonatomic) NSMutableArray *chooseCardBtns;
@@ -19,6 +27,11 @@
 @property (strong, nonatomic) NSMutableArray *otherCardsArr;
 @property (strong, nonatomic) NSMutableArray *otherResults;
 @property (strong, nonatomic) NSMutableDictionary *myCardsChooseDic;
+@property (strong, nonatomic) NSMutableArray *bossChooseBtns;//抢庄
+@property (strong, nonatomic) NSMutableArray *multipleBtns;//倍数选择
+@property (assign, nonatomic) NSInteger timeCount;//倒计时从几开始
+@property (weak, nonatomic) NSTimer *countDownTimer;//倒计时
+@property (assign, nonatomic) CountDownType countDownType;//倒计时类型
 @end
 
 @implementation NiuNiuGameViewController
@@ -40,20 +53,113 @@
     [_takeChairBtn setImage:[[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_ruzuo"] forState:UIControlStateNormal];
     [_takeChairBtn setImage:[[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_ruzuo_p"] forState:UIControlStateHighlighted];
     
+    [_getUpBtn setImage:[[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_qishen"] forState:UIControlStateNormal];
+    [_getUpBtn setImage:[[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_qishen_p"] forState:UIControlStateHighlighted];
+    
     _robotImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_jiqiren"];
+    
+    [_timeCountDownImg setImage:[[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_daojishikuang"]];
 
     for (UIImageView *img in _niuBiImgs) {
         img.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_niubi"];
     }
     
-    //[self loadOtherDefaultPlayerCards];//其他人的卡牌
-    //[self loadMultipleChooseView];//倍数
-    //[self loadNiuChooseView];//有牛or没牛
-    //[self loadMyCards];//我的卡片
-    
     [_calculatorView setHidden:YES];
     [_robotImg setHidden:YES];
+    
+    //满足某些条件自动入座
+    [self takeChairBtnDidClick:_takeChairBtn];
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+#pragma mark 开始倒计时
+
+- (void)timeCountDown:(NSInteger)count countDownType:(CountDownType)type
+{
+    [_timeCountDownImg setHidden:NO];
+    [_timeCountDownLab setHidden:NO];
+    _timeCount = count;
+    _countDownType = type;
+    [self setTimeCountDownLabText];
+    _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeCountDownTimer:) userInfo:nil repeats:YES];
+}
+
+- (void)timeCountDownTimer:(NSTimer *)timer
+{
+    _timeCount -= 1;
+    if (_timeCount == 0) {
+        [self closeCountDownTimer];
+        switch (_countDownType) {
+            case beginType:
+                [self gameBeginning];
+                break;
+            case bossType:
+                [self bossBtnDidClick:_bossChooseBtns.firstObject];
+                break;
+            case multipleType:
+                [self multipleBtnDidClick:_multipleBtns.firstObject];
+                break;
+            case openType:
+                [self openResult];
+                break;
+            default:
+                break;
+        }
+    }else {
+        [self setTimeCountDownLabText];
+    }
+}
+
+- (void)setTimeCountDownLabText
+{
+    switch (_countDownType) {
+        case beginType:
+            _timeCountDownLab.text = [NSString stringWithFormat:@"牛牛即将开始:%zi",_timeCount];
+            break;
+        case bossType:
+            _timeCountDownLab.text = [NSString stringWithFormat:@"抢庄倒计时:%zi",_timeCount];
+            break;
+        case multipleType:
+            _timeCountDownLab.text = [NSString stringWithFormat:@"倍数选择倒计时:%zi",_timeCount];
+            break;
+        case openType:
+            _timeCountDownLab.text = [NSString stringWithFormat:@"倒计时:%zi",_timeCount];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)closeCountDownTimer
+{
+    [_countDownTimer invalidate];
+    _countDownTimer = nil;
+    [_timeCountDownImg setHidden:YES];
+    _timeCountDownLab.text = nil;
+    [_timeCountDownLab setHidden:YES];
+}
+
+#pragma mark 游戏开始
+
+- (void)gameBeginning
+{
+    //游戏开始不能起身
+    [_getUpBtn setHidden:YES];
+    //显示我的4张牌
+    [self loadMyCards];
+    //其他人的卡牌
+    [self loadOtherDefaultPlayerCards];
+    //抢庄
+    [self loadBossChooseView];
+    //抢庄倒计时
+    [self timeCountDown:5 countDownType:bossType];
+}
+
+#pragma mark 其他人的卡牌
 
 - (void)loadOtherDefaultPlayerCards
 {
@@ -89,21 +195,49 @@
     }
 }
 
-- (void)loadMultipleChooseView
+#pragma mark 选择庄家
+
+- (void)loadBossChooseView
 {
     [_niuChooseView setHidden:YES];
     [_multipleChooseView setHidden:NO];
-    
-    CGFloat multipleBtn_W = (screen_W-29*2-5*4)/5;
+    [_multipleChooseView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+    CGFloat multipleBtn_W = (screen_W-29*2-5*3)/5;
     NSArray *multipleChooseImgs = @[@"niuniu_anniu_buqiang",@"niuniu_1bei",@"niuniu_2bei",@"niuniu_3bei",@"niuniu_4bei"];
+    _bossChooseBtns = [NSMutableArray array];
     for (int i=0; i<5; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake((multipleBtn_W+5)*i, 0, multipleBtn_W, _multipleChooseView.frame.size.height);
         [btn setImage:[[SkinManager inst] getImage:[NSString stringWithFormat:@"Live/Game/NiuNiu/%@",multipleChooseImgs[i]]] forState:UIControlStateNormal];
-        [btn addTarget:self action:@selector(multipleBtnDidClick:) forControlEvents:UIControlEventTouchUpInside];
+        [btn addTarget:self action:@selector(bossBtnDidClick:) forControlEvents:UIControlEventTouchUpInside];
         [_multipleChooseView addSubview:btn];
+        [_bossChooseBtns addObject:btn];
     }
 }
+
+#pragma mark 选择倍数
+
+- (void)loadMultipleChooseView
+{
+    [_niuChooseView setHidden:YES];
+    [_multipleChooseView setHidden:NO];
+    [_multipleChooseView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+    CGFloat multipleBtn_W = (screen_W-29*2-5*4)/5;
+    NSArray *multipleChooseImgs = @[@"niuniu_anniu_5bei",@"niuniu_anniu_10bei",@"niuniu_anniu_15bei",@"niuniu_anniu_20bei"];
+    _multipleBtns = [NSMutableArray array];
+    for (int i=0; i<4; i++) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame = CGRectMake((multipleBtn_W+5)*i+multipleBtn_W/2, 0, multipleBtn_W, _multipleChooseView.frame.size.height);
+        [btn setImage:[[SkinManager inst] getImage:[NSString stringWithFormat:@"Live/Game/NiuNiu/%@",multipleChooseImgs[i]]] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(multipleBtnDidClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_multipleChooseView addSubview:btn];
+        [_multipleBtns addObject:btn];
+    }
+}
+
+#pragma mark 有牛or没牛
 
 - (void)loadNiuChooseView
 {
@@ -121,6 +255,8 @@
     }
 }
 
+#pragma mark 我的卡片
+
 - (void)loadMyCards
 {
     _myCardsArr = [NSMutableArray array];
@@ -136,7 +272,9 @@
         i+=1;
         [cardBtn addTarget:self action:@selector(cardBtnIsClick:) forControlEvents:UIControlEventTouchUpInside];
     }
-    
+    UIButton *lastBtn = _myCards.lastObject;
+    [lastBtn setHidden:YES];
+    //计算结果并储存
     NSMutableArray *targetcards = [NSMutableArray array];
     for (NSDictionary *dic in _myCardsArr) {
         NSInteger typeNum = [dic[@"typeNum"] integerValue];
@@ -224,24 +362,61 @@
 
 - (IBAction)closeBtnDidClick:(UIButton *)sender
 {
+    [self closeCountDownTimer];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark 入座
+
 - (IBAction)takeChairBtnDidClick:(UIButton *)sender
 {
+    [_getUpBtn setHidden:NO];
     [sender setHidden:YES];
-    [self loadMultipleChooseView];//倍数
+    //倒计时（如果人数5人3秒，少于5人5秒）
+    [self timeCountDown:3 countDownType:beginType];
 }
+
+#pragma mark 起身
+
+- (IBAction)getUpBtnDidClick:(UIButton *)sender
+{
+    [_takeChairBtn setHidden:NO];
+    [sender setHidden:YES];
+    //关闭倒计时
+    [self closeCountDownTimer];
+}
+
+#pragma mark 抢庄
+
+- (void)bossBtnDidClick:(UIButton *)sender
+{
+    //todo庄家选择
+    //如果不是boss
+    [self loadMultipleChooseView];
+    //关闭倒计时
+    [self closeCountDownTimer];
+    //倍数倒计时
+    [self timeCountDown:5 countDownType:multipleType];
+}
+
+#pragma mark 倍数
 
 - (void)multipleBtnDidClick:(UIButton *)sender
 {
-    [self loadOtherDefaultPlayerCards];//其他人的卡牌
+    //todo选庄
     [self loadNiuChooseView];//有牛or没牛
-    [self loadMyCards];//我的卡片
-    
+    //显示我的最后一张卡片
+    UIButton *lastBtn = _myCards.lastObject;
+    [lastBtn setHidden:NO];
     [_calculatorView setHidden:NO];
     [_robotImg setHidden:NO];
+    //开启结果倒计时
+    [self timeCountDown:10 countDownType:openType];
+    //关闭倒计时
+    //[self closeCountDownTimer];
 }
+
+#pragma mark 有牛和没牛的点击
 
 - (void)niuChooseBtnDidClick:(UIButton *)sender
 {
@@ -250,12 +425,12 @@
         {
             for (UILabel *label in _calculatorNumbers) {
                 if ([label.text integerValue] == 0) {
-                    NSLog(@"请选择3张牌！");
+                    [self showTextOnly:@"配牌好像不对哦，再仔细看看吧！"];
                     return;
                 }
             }
             if ([_totalNums.text integerValue]%10 != 0) {
-                NSLog(@"这个组合没有牛！");
+                [self showTextOnly:@"配牌好像不对哦，再仔细看看吧！"];
                 return;
             }
         }
@@ -263,7 +438,7 @@
         case 201:
         {
             if ([_myResult[@"tmp1"] boolValue]) {
-                NSLog(@"仔细看看，应该是有牛的！");
+                [self showTextOnly:@"好像有牛哦，再仔细看看吧！"];
                 return;
             }
 
@@ -272,10 +447,18 @@
         default:
             break;
     }
+    [self openResult];
+}
 
+#pragma mark 结果
+
+- (void)openResult
+{
     [self changeSizeImg:_myNiuSizeImg resultDic:_myResult];
     [self showHiddenSomething];
     [self loadOtherPlayerCards];
+    //关闭倒计时
+    [self closeCountDownTimer];
 }
 
 - (NSDictionary *)testNN:(NSMutableArray *)targetcards
@@ -306,8 +489,7 @@
             }
         }
     }
-    lalala:NSLog(@"《你开始，顺时针》牛%zi",tmp3);
- 
+    lalala:;
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:tmp1],@"tmp1",[NSNumber numberWithBool:tmp2],@"tmp2",[NSNumber numberWithInteger:tmp3],@"tmp3", nil];
     return dic;
 }
@@ -343,7 +525,7 @@
     for (UIButton *cardBtn in _myCards) {//把超过3个不可点的条件取消
         cardBtn.enabled = YES;
     }
-//    [self performSelector:@selector(gameOver) withObject:nil afterDelay:3];
+    [self performSelector:@selector(gameOver) withObject:nil afterDelay:3];
 }
 
 - (void)gameOver
@@ -359,6 +541,20 @@
         [view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
     [_takeChairBtn setHidden:NO];
+    
+    [self takeChairBtnDidClick:_takeChairBtn];
+}
+
+#pragma mark Tool
+
+- (void)showTextOnly:(NSString *)text {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.creatView animated:YES];
+    // Configure for text only and offset down
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = text;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud hide:YES afterDelay:1];
 }
 
 - (void)didReceiveMemoryWarning {
