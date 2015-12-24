@@ -168,7 +168,7 @@ typedef enum : NSUInteger {
     //其他人的牌（反面）
     for (UIView *view in _playerViews) {
         for (int i=0; i<5; i++) {
-            UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(12*i, 0, 22, view.frame.size.height)];
+            UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(view.frame.size.width/6*i, 0, view.frame.size.width/3, view.frame.size.height)];
             img.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_zhengmian"];
             [view addSubview:img];
         }
@@ -186,7 +186,7 @@ typedef enum : NSUInteger {
             NSInteger cardType = arc4random()%4;
             NSInteger typeNum = arc4random()%13+1;
             NiuNiuCard *card = [[NiuNiuCard alloc]initWithTypeNum:typeNum cardType:cardType];
-            UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(12*i, 0, 22, view.frame.size.height)];
+            UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(view.frame.size.width/6*i, 0, view.frame.size.width/3, view.frame.size.height)];
             img.image = [NiuNiuCard imageFromView:card];
             [view addSubview:img];
             typeNum = typeNum<10?typeNum:10;

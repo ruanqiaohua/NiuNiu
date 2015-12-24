@@ -8,6 +8,7 @@
 
 #import "NiuNiuBeginViewController.h"
 #import "SkinManager.h"
+#import "NiuNiuRoomCollectionViewCell.h"
 
 @interface NiuNiuBeginViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UICollectionViewCell *selectCell;
@@ -39,9 +40,15 @@
     return 4;
 }
 
+#define InRoomDefaultCoins @[@"1000",@"2000",@"5000",@"10000"]
+#define InRoomDefaultPoints @[@"100",@"200",@"500",@"1000"]
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    NiuNiuRoomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.inRoomCoin.text = [NSString stringWithFormat:@"    入桌下限%@",InRoomDefaultCoins[indexPath.item]];
+    cell.inRoomPoint.text = [NSString stringWithFormat:@"底分%@",InRoomDefaultPoints[indexPath.item]];
+    cell.peopleCount.text = @"4人";
     return cell;
 }
 
