@@ -15,6 +15,7 @@
 		1E4D6AAC1C27C82800673444 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E4D6AAA1C27C82800673444 /* LaunchScreen.storyboard */; };
 		1E4D6AB71C27CA6000673444 /* NiuNiuBeginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4D6AB61C27CA6000673444 /* NiuNiuBeginViewController.m */; };
 		1E4D6ABB1C27CC6700673444 /* NiuNiuGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4D6ABA1C27CC6700673444 /* NiuNiuGameViewController.m */; };
+		1E8830401C2BF02800A09A95 /* NiuNiuRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88303F1C2BF02800A09A95 /* NiuNiuRuleViewController.m */; };
 		1EA92CD51C29310C008CF15F /* NiuNiuCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA92CD41C29310C008CF15F /* NiuNiuCard.m */; };
 		1EE98DB01C28E8D80067DE6F /* SkinManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EE98DAF1C28E8D80067DE6F /* SkinManager.m */; };
 		1EE9939A1C28EBA30067DE6F /* Skins in Resources */ = {isa = PBXBuildFile; fileRef = 1EE993991C28EBA30067DE6F /* Skins */; };
@@ -37,6 +38,8 @@
 		1E4D6AB61C27CA6000673444 /* NiuNiuBeginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NiuNiuBeginViewController.m; sourceTree = "<group>"; };
 		1E4D6AB91C27CC6700673444 /* NiuNiuGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NiuNiuGameViewController.h; sourceTree = "<group>"; };
 		1E4D6ABA1C27CC6700673444 /* NiuNiuGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NiuNiuGameViewController.m; sourceTree = "<group>"; };
+		1E88303E1C2BF02800A09A95 /* NiuNiuRuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NiuNiuRuleViewController.h; sourceTree = "<group>"; };
+		1E88303F1C2BF02800A09A95 /* NiuNiuRuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NiuNiuRuleViewController.m; sourceTree = "<group>"; };
 		1EA92CD31C29310C008CF15F /* NiuNiuCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NiuNiuCard.h; sourceTree = "<group>"; };
 		1EA92CD41C29310C008CF15F /* NiuNiuCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NiuNiuCard.m; sourceTree = "<group>"; };
 		1EE98DAE1C28E8D80067DE6F /* SkinManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkinManager.h; sourceTree = "<group>"; };
@@ -109,6 +112,7 @@
 				1EA92CD21C29310C008CF15F /* Card */,
 				1E4D6AB41C27CA3400673444 /* Begin */,
 				1E4D6AB81C27CC5500673444 /* Game */,
+				1E88303D1C2BEFF800A09A95 /* Rule */,
 			);
 			path = Niuniu;
 			sourceTree = "<group>";
@@ -129,6 +133,15 @@
 				1E4D6ABA1C27CC6700673444 /* NiuNiuGameViewController.m */,
 			);
 			path = Game;
+			sourceTree = "<group>";
+		};
+		1E88303D1C2BEFF800A09A95 /* Rule */ = {
+			isa = PBXGroup;
+			children = (
+				1E88303E1C2BF02800A09A95 /* NiuNiuRuleViewController.h */,
+				1E88303F1C2BF02800A09A95 /* NiuNiuRuleViewController.m */,
+			);
+			path = Rule;
 			sourceTree = "<group>";
 		};
 		1EA92CD21C29310C008CF15F /* Card */ = {
@@ -300,6 +313,7 @@
 				1E4D6AA41C27C82700673444 /* ViewController.m in Sources */,
 				1E4D6AA11C27C82700673444 /* AppDelegate.m in Sources */,
 				1E4D6AB71C27CA6000673444 /* NiuNiuBeginViewController.m in Sources */,
+				1E8830401C2BF02800A09A95 /* NiuNiuRuleViewController.m in Sources */,
 				1E4D6ABB1C27CC6700673444 /* NiuNiuGameViewController.m in Sources */,
 				1EA92CD51C29310C008CF15F /* NiuNiuCard.m in Sources */,
 				1E4D6A9E1C27C82700673444 /* main.m in Sources */,

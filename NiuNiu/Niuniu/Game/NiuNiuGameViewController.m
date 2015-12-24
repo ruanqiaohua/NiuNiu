@@ -155,6 +155,8 @@ typedef enum : NSUInteger {
     [self loadOtherDefaultPlayerCards];
     //抢庄
     [self loadBossChooseView];
+    //关闭倒计时
+    [self closeCountDownTimer];
     //抢庄倒计时
     [self timeCountDown:5 countDownType:bossType];
 }
@@ -327,7 +329,7 @@ typedef enum : NSUInteger {
     }
     if ([type isEqualToString:@"add"]) {
         for (UILabel *label in _calculatorNumbers) {
-            if ([label.text isEqualToString:@""]) {
+            if ([label.text integerValue] == 0) {
                 NSDictionary *dic = _myCardsArr[index-MyCardsDefaultTag];
                 [_myCardsChooseDic setObject:dic forKey:[NSNumber numberWithInteger:label.tag]];//添加选择
                 NSInteger typeNum = [dic[@"typeNum"] integerValue];
@@ -373,6 +375,9 @@ typedef enum : NSUInteger {
     [_getUpBtn setHidden:NO];
     [sender setHidden:YES];
     //倒计时（如果人数5人3秒，少于5人5秒）
+    //关闭倒计时
+    [self closeCountDownTimer];
+    //开始游戏
     [self timeCountDown:3 countDownType:beginType];
 }
 
@@ -410,10 +415,10 @@ typedef enum : NSUInteger {
     [lastBtn setHidden:NO];
     [_calculatorView setHidden:NO];
     [_robotImg setHidden:NO];
+    //关闭倒计时
+    [self closeCountDownTimer];
     //开启结果倒计时
     [self timeCountDown:10 countDownType:openType];
-    //关闭倒计时
-    //[self closeCountDownTimer];
 }
 
 #pragma mark 有牛和没牛的点击
@@ -533,6 +538,11 @@ typedef enum : NSUInteger {
     for (UIImageView *img in _otherNiuSizeImgs) {
         img.image = nil;
     }
+    for (UILabel *label in _calculatorNumbers) {
+        label.text = nil;
+    }
+    _totalNums.text = nil;
+    [_myCardsChooseDic removeAllObjects];
     _myNiuSizeImg.image = nil;
     for (UIButton *card in _myCards) {
         [card setImage:nil forState:UIControlStateNormal];
