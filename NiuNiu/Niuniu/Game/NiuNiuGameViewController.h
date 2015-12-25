@@ -30,5 +30,6 @@
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *otherNiuSizeImgs;//他人牛牛大小
 @property (weak, nonatomic) IBOutlet UIImageView *timeCountDownImg;//倒计时图片
 @property (weak, nonatomic) IBOutlet UILabel *timeCountDownLab;//倒计时文字
+@property (weak, nonatomic) IBOutlet UIImageView *myResultImg;//我的结果
 
 @end

@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 
 #define MyCardsDefaultTag 1000
+#define BossChooseBtnDefaultTag 2000
 
 typedef enum : NSUInteger {
     beginType,
@@ -19,6 +20,14 @@ typedef enum : NSUInteger {
     multipleType,
     openType,
 } CountDownType;
+
+typedef enum : NSUInteger {
+    NoTakeBossType,
+    OneTakeBossType,
+    TwoTakeBossType,
+    ThreeTakeBossType,
+    FourTakeBossType,
+} TakeBossType;
 
 @interface NiuNiuGameViewController ()
 @property (strong, nonatomic) NSMutableArray *chooseCardBtns;
@@ -29,6 +38,7 @@ typedef enum : NSUInteger {
 @property (strong, nonatomic) NSMutableDictionary *myCardsChooseDic;
 @property (strong, nonatomic) NSMutableArray *bossChooseBtns;//抢庄
 @property (strong, nonatomic) NSMutableArray *multipleBtns;//倍数选择
+@property (strong, nonatomic) NSMutableArray *playerTakeBossMultiples;//玩家抢庄倍数
 @property (assign, nonatomic) NSInteger timeCount;//倒计时从几开始
 @property (weak, nonatomic) NSTimer *countDownTimer;//倒计时
 @property (assign, nonatomic) CountDownType countDownType;//倒计时类型
@@ -67,6 +77,7 @@ typedef enum : NSUInteger {
     [_calculatorView setHidden:YES];
     [_robotImg setHidden:YES];
     
+    _playerTakeBossMultiples = [NSMutableArray array];
     //满足某些条件自动入座
     [self takeChairBtnDidClick:_takeChairBtn];
 }
@@ -159,6 +170,12 @@ typedef enum : NSUInteger {
     [self closeCountDownTimer];
     //抢庄倒计时
     [self timeCountDown:5 countDownType:bossType];
+    //我的默认抢庄
+    [self takeBossMultiples:[NSNumber numberWithInteger:0]];
+    //他人的抢庄
+    for (int i=0; i<4; i++) {
+        [self performSelector:@selector(takeBossMultiples:) withObject:[NSNumber numberWithInteger:arc4random()%5] afterDelay:arc4random()%5];
+    }
 }
 
 #pragma mark 其他人的卡牌
@@ -179,6 +196,7 @@ typedef enum : NSUInteger {
 {
     //其他人的牌（正面）
     int a = 0;
+    _otherResults = [NSMutableArray array];
     for (UIView *view in _playerViews) {
         [view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         NSMutableArray *targetcards = [NSMutableArray array];
@@ -194,6 +212,9 @@ typedef enum : NSUInteger {
         }
         [self changeSizeImg:_otherNiuSizeImgs[a] resultDic:[self testNN:targetcards]];
         a += 1;
+        
+        //计算结果并储存
+        [_otherResults addObject:[self testNN:targetcards]];
     }
 }
 
@@ -212,6 +233,7 @@ typedef enum : NSUInteger {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake((multipleBtn_W+5)*i, 0, multipleBtn_W, _multipleChooseView.frame.size.height);
         [btn setImage:[[SkinManager inst] getImage:[NSString stringWithFormat:@"Live/Game/NiuNiu/%@",multipleChooseImgs[i]]] forState:UIControlStateNormal];
+        btn.tag = i+BossChooseBtnDefaultTag;
         [btn addTarget:self action:@selector(bossBtnDidClick:) forControlEvents:UIControlEventTouchUpInside];
         [_multipleChooseView addSubview:btn];
         [_bossChooseBtns addObject:btn];
@@ -395,6 +417,8 @@ typedef enum : NSUInteger {
 
 - (void)bossBtnDidClick:(UIButton *)sender
 {
+    //我的投注
+    [_playerTakeBossMultiples replaceObjectAtIndex:0 withObject:[NSNumber numberWithInteger:sender.tag-BossChooseBtnDefaultTag]];
     //todo庄家选择
     //如果不是boss
     [self loadMultipleChooseView];
@@ -402,6 +426,11 @@ typedef enum : NSUInteger {
     [self closeCountDownTimer];
     //倍数倒计时
     [self timeCountDown:5 countDownType:multipleType];
+}
+
+- (void)takeBossMultiples:(id)number
+{
+    [_playerTakeBossMultiples addObject:number];
 }
 
 #pragma mark 倍数
@@ -464,6 +493,7 @@ typedef enum : NSUInteger {
     [self loadOtherPlayerCards];
     //关闭倒计时
     [self closeCountDownTimer];
+    [self dealWithResult];
 }
 
 - (NSDictionary *)testNN:(NSMutableArray *)targetcards
@@ -530,6 +560,26 @@ typedef enum : NSUInteger {
     for (UIButton *cardBtn in _myCards) {//把超过3个不可点的条件取消
         cardBtn.enabled = YES;
     }
+}
+
+- (void)dealWithResult
+{
+    NSInteger winCount = 0;
+    for (NSDictionary *dic in _otherResults) {
+        if (_myResult[@"tmp3"] > dic[@"tmp3"]) {
+            winCount ++;
+        }else {
+            winCount --;
+        }
+    }
+    
+    if (winCount > 0) {
+        _myResultImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_shengli.png"];
+    }else {
+        _myResultImg.image = [[SkinManager inst] getImage:@"Live/Game/NiuNiu/niuniu_shibai.png"];
+    }
+    
+    //todo如果不是庄家那么只需要和庄家进行比较。
     [self performSelector:@selector(gameOver) withObject:nil afterDelay:3];
 }
 
@@ -543,6 +593,7 @@ typedef enum : NSUInteger {
     }
     _totalNums.text = nil;
     [_myCardsChooseDic removeAllObjects];
+    [_playerTakeBossMultiples removeAllObjects];
     _myNiuSizeImg.image = nil;
     for (UIButton *card in _myCards) {
         [card setImage:nil forState:UIControlStateNormal];
@@ -553,6 +604,7 @@ typedef enum : NSUInteger {
     [_takeChairBtn setHidden:NO];
     
     [self takeChairBtnDidClick:_takeChairBtn];
+    _myResultImg.image = nil;
 }
 
 #pragma mark Tool
