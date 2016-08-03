@@ -110,8 +110,8 @@
 			isa = PBXGroup;
 			children = (
 				1EA92CD21C29310C008CF15F /* Card */,
-				1E4D6AB41C27CA3400673444 /* Begin */,
 				1E4D6AB81C27CC5500673444 /* Game */,
+				1E4D6AB41C27CA3400673444 /* Begin */,
 				1E88303D1C2BEFF800A09A95 /* Rule */,
 			);
 			path = Niuniu;
